@@ -1,0 +1,11 @@
+.css-thlqxz-MuiButtonBase-root-MuiButton-root{
+    border:1px solid #ff5c8e !important;
+    color: #ff5c8e !important;
+    text-transform: none!important;
+    border-radius: 18px!important;
+   
+}
+.active-btn{
+    background-color:#ff5c8e!important;
+    color: white !important;
+}
