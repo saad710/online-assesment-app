@@ -22,7 +22,7 @@ export const steps = [
                 id: 1,
                 option: 'Martha',
                 queId : "001",
-		            score: 15,
+		        score: 15,
             },
             {
                 id: 2,
@@ -84,25 +84,25 @@ export const steps = [
         //   info_descrition: "Please fill the necessary information"
         //   },
         info:  [ {
-          id: "001",
+          id: "003",
           question: 'who guess the output?',
           options: [
               {
                   id: 1,
                   option: 'Martha',
-                  queId : "001",
+                  queId : "003",
                   score: 15,
               },
               {
                   id: 2,
                   option: 'Mary',
-                  queId : "001",
+                  queId : "003",
                   score: 10,
               },
               {
                   id: 3,
                   option: 'Martha, Mary, May',
-                  queId : "001",
+                  queId : "003",
                   score: 5,
               },
           ],
@@ -110,25 +110,25 @@ export const steps = [
       },
   
       {
-        id: "002",
+        id: "004",
         question: 'who is worthy?',
         options: [
             {
                 id: 1,
                 option: 'Martha',
-                queId : "002",
+                queId : "004",
                 score: 10,
             },
             {
                 id: 2,
                 option: 'Mary',
-                queId : "002",
+                queId : "004",
                 score: 10,
             },
             {
                 id: 3,
                 option: 'Martha, Mary, May',
-                queId : "002",
+                queId : "004",
                 score: 5,
             },
         ],
@@ -152,25 +152,25 @@ export const steps = [
       // info_descrition: "Please fill the necessary information",
       // },
       info:  [ {
-        id: "001",
+        id: "005",
         question: 'Martha ,Mary, May, Made Marvelous Milk. In that sentence who made the milk? This is an easy and dumb question!',
         options: [
             {
                 id: 1,
                 option: 'Martha',
-                queId : "001",
+                queId : "005",
 		            score: 15,
             },
             {
                 id: 2,
                 option: 'Mary',
-                queId : "001",
+                queId : "005",
                 score: 10,
             },
             {
                 id: 3,
                 option: 'Martha, Mary, May',
-                queId : "001",
+                queId : "005",
                 score: 5,
             },
         ],
@@ -178,25 +178,25 @@ export const steps = [
     },
 
     {
-      id: "002",
+      id: "006",
       question: 'what if Martha Made the milk?',
       options: [
           {
               id: 1,
               option: 'Martha',
-              queId : "002",
+              queId : "006",
               score: 10,
           },
           {
               id: 2,
               option: 'Mary',
-              queId : "002",
+              queId : "006",
               score: 10,
           },
           {
               id: 3,
               option: 'Martha, Mary, May',
-              queId : "002",
+              queId : "006",
               score: 5,
           },
       ],
@@ -220,25 +220,25 @@ export const steps = [
         //   info_descrition: "Please fill the necessary information"
         //   },
         info:  [ {
-          id: "001",
+          id: "007",
           question: 'what is the last words of mary?',
           options: [
               {
                   id: 1,
                   option: 'Martha',
-                  queId : "001",
+                  queId : "007",
                   score: 15,
               },
               {
                   id: 2,
                   option: 'Mary',
-                  queId : "001",
+                  queId : "007",
                   score: 10,
               },
               {
                   id: 3,
                   option: 'Martha, Mary, May',
-                  queId : "001",
+                  queId : "007",
                   score: 5,
               },
           ],
@@ -246,25 +246,25 @@ export const steps = [
       },
   
       {
-        id: "002",
+        id: "008",
         question: 'who will be the best maker? ',
         options: [
             {
                 id: 1,
                 option: 'Martha',
-                queId : "002",
+                queId : "008",
                 score: 10,
             },
             {
                 id: 2,
                 option: 'Mary',
-                queId : "002",
+                queId : "008",
                 score: 10,
             },
             {
                 id: 3,
                 option: 'Martha, Mary, May',
-                queId : "002",
+                queId : "008",
                 score: 5,
             },
         ],
@@ -288,25 +288,25 @@ export const steps = [
         //   info_descrition: "Please fill the necessary information"
         //   },
         info:  [ {
-          id: "001",
+          id: "009",
           question: 'Martha ,Mary, May, Made Marvelous Milk. In that sentence who made the milk? This is an easy and dumb question!',
           options: [
               {
                   id: 1,
                   option: 'Martha',
-                  queId : "001",
+                  queId : "009",
                   score: 15,
               },
               {
                   id: 2,
                   option: 'Mary',
-                  queId : "001",
+                  queId : "009",
                   score: 10,
               },
               {
                   id: 3,
                   option: 'Martha, Mary, May',
-                  queId : "001",
+                  queId : "009",
                   score: 5,
               },
           ],
@@ -314,25 +314,25 @@ export const steps = [
       },
   
       {
-        id: "002",
+        id: "010",
         question: 'Martha ,Mary, May, Made Marvelous Milk. In that sentence who made the milk? This is an easy and dumb question!',
         options: [
             {
                 id: 1,
                 option: 'Martha',
-                queId : "002",
+                queId : "010",
                 score: 10,
             },
             {
                 id: 2,
                 option: 'Mary',
-                queId : "002",
+                queId : "010",
                 score: 10,
             },
             {
                 id: 3,
                 option: 'Martha, Mary, May',
-                queId : "002",
+                queId : "010",
                 score: 5,
             },
         ],

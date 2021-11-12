@@ -9,7 +9,7 @@ const StepperContent = () => {
     const [queItem,setQueItem] = useState([])
     const [stepScore,setStepScore] = useState()
     const [queId ,setQueId] = useState()
-    const [optionInfo,setOptionInfo] = useState()
+    const [optionInfo,setOptionInfo] = useState([""])
     console.log(queItem)
 
     useEffect(() =>  {
@@ -24,15 +24,31 @@ const StepperContent = () => {
         console.log(opt.score)
         console.log(opt.queId)
         setQueId(opt.queId)
-        setOptionInfo(opt.option)
+        // setOptionInfo(opt.option)
         const newItem = [...queItem, opt]
         console.log(newItem)
-        setQueItem(newItem)
+        const getItem = newItem?.map(elem => {
+           if(elem.queId === opt.queId){
+            return { ...elem ,score : opt.score };
+           }
+           else{
+               return {...elem}
+           }
+          })
+        let removeMatchQue = {};
+        getItem.forEach((user) => {
+            removeMatchQue[user.queId] = user; 
+        });
+        setQueItem(Object.values(removeMatchQue))
+        console.log(Object.values(removeMatchQue));
+        
         // const optionValue = newItem.map(val => val.option)
         // console.log(optionValue)
         // setOptionInfo(optionValue)
         // const calculteScore = queItem.reduce(x,y => x.score + y.score )
+        
     }
+  
 
     return (
         <Box sx={{ mb: 2 }}>
@@ -46,13 +62,17 @@ const StepperContent = () => {
                         <div >
                         {info.question}
                         </div>
-                      <div>
+                     {/* {
+                         optionInfo?.map((option,index) => ( */}
+                            <div>
                             {
                                 info.options.map((opt,index) => (
-                                    <Button className={opt.option === optionInfo ? "active-btn" : ""} key={index} variant="outlined" style={{marginLeft:"0.6vh",marginTop:"2vh"}} onClick={() => handleOption(opt)} > {opt.option}</Button>
+                                    <Button  key={index} variant="outlined" style={{marginLeft:"0.6vh",marginTop:"2vh"}} onClick={() => handleOption(opt)} > {opt.option}</Button>
                                 ))
                             }
-                      </div>
+                            </div>
+                         {/* ))
+                     } */}
                     </div>
                 ))
             }
