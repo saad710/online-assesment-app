@@ -16,11 +16,10 @@ const StepperContent = () => {
     console.log(queItem)
 
     useEffect(() =>  {
-        if(queItem){
-            const totalScore = queItem.reduce((total,item) => total + item.score ,0)
+            const totalScore = queItem.reduce((total,item) =>  total + item.score ,0)
             console.log(totalScore)
             setStepScore(totalScore)
-        }
+        
     },[queItem])
     
     const handleOption = (opt) => {
@@ -30,7 +29,7 @@ const StepperContent = () => {
         // setOptionInfo(opt.option)
         const newItem = [...queItem, opt]
         console.log(newItem)
-        // setQueItem(newItem)
+        setQueItem(newItem)
         // const getItem = newItem?.map(elem => {
         //    if(elem.queId === opt.queId){
         //     return { ...elem ,score : opt.score  };
@@ -40,23 +39,14 @@ const StepperContent = () => {
         //    }
         //   })
         //   console.log(getItem)
-        let removeMatchQue = {};
-        newItem.forEach((user) => {
-            removeMatchQue[user.option] = user; 
-        });
-        setQueItem(Object.values(removeMatchQue))
-        console.log(Object.values(removeMatchQue));
-        // setMainData(mainData.map(main => {
-        //         return {...main, options : main.options.map(data => {
-        //             if(data.queId === opt.queId && data.id === opt.id){
-        //                 return {...data , isActive : true}
-        //             }
-        //             else{
-        //                 return {...data}
-        //             }
-        //         })}
-           
-        // }))
+        // let removeMatchQue = {};
+        // newItem.forEach((user) => {
+        //     removeMatchQue[user.option] = user; 
+        // });
+        // setQueItem(Object.values(removeMatchQue))
+        // console.log(Object.values(removeMatchQue));
+      
+        
         setMainData(mainData?.map((main) => {
                 return {...main, info : main.info.map(subInfo => {
                         return{...subInfo, options : subInfo.options.map(data => {
@@ -70,26 +60,27 @@ const StepperContent = () => {
                 })}
         }))
     }
-    
 
 
-    // const handleRemove = (opt) => {
-    //     console.log(opt)
-    //     setMainData(mainData?.map((main) => {
-    //         return {...main, info : main.info.map(subInfo => {
-    //                 return{...subInfo, options : subInfo.options.map(data => {
-    //                     if(data.isActive === true && data.id === opt.id && data.option === opt.option){
-    //                         return{...data, isActive : false, score : 0}
-    //                     }
-    //                     else{
-    //                         return {...data}
-    //                     }
-    //                 })}
-    //         })}
-    // }))
+    const handleRemove = (opt) => {
+        console.log(opt)
+        // console.log(setStepScore)
+        setStepScore(stepScore - opt.score)
+        setMainData(mainData?.map((main) => {
+            return {...main, info : main.info.map(subInfo => {
+                    return{...subInfo, options : subInfo.options.map(data => {
+                        if(data.queId === opt.queId && data.id === opt.id){
+                            return{...data, isActive : false}
+                        }
+                        else{
+                            return {...data}
+                        }
+                    })}
+            })}
+    }))
 
 
-    // }
+    }
  
   
 
@@ -110,7 +101,7 @@ const StepperContent = () => {
                             <div>
                             {
                                 info.options.map((opt,index) => (
-                                    <Button  key={index} className={opt.isActive ? "active-btn" : ""} variant="outlined" style={{marginLeft:"0.6vh",marginTop:"2vh"}} onClick={() => handleOption(opt)} > {opt.option}</Button>
+                                    <Button  key={index} className={opt.isActive ? "active-btn" : ""} variant="outlined" style={{marginLeft:"0.6vh",marginTop:"2vh"}} onClick={() => opt.isActive? handleRemove(opt) : handleOption(opt)} > {opt.option}</Button>
                                 ))
                             }
                             </div>

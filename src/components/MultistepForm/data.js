@@ -89,19 +89,19 @@ export const steps = [
           options: [
               {
                   id: 1,
-                  option: 'Martha',
+                  option: 'Marsh',
                   queId : "003",
                   score: 15,
               },
               {
                   id: 2,
-                  option: 'Mary',
+                  option: 'Mry',
                   queId : "003",
                   score: 10,
               },
               {
                   id: 3,
-                  option: 'Martha, Mary, May',
+                  option: 'Mae',
                   queId : "003",
                   score: 5,
               },
@@ -115,19 +115,19 @@ export const steps = [
         options: [
             {
                 id: 1,
-                option: 'Martha',
+                option: 'Mwa',
                 queId : "004",
                 score: 10,
             },
             {
                 id: 2,
-                option: 'Mary',
+                option: 'dory',
                 queId : "004",
                 score: 10,
             },
             {
                 id: 3,
-                option: 'Martha, Mary, May',
+                option: 'rowdy',
                 queId : "004",
                 score: 5,
             },
