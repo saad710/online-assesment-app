@@ -15,6 +15,9 @@ const MultistepForm = () => {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       console.log("active: ",activeStep)
     };
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+      };
   
     // const handleBack = () => {
     //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -24,16 +27,16 @@ const MultistepForm = () => {
       setActiveStep(0);
     };
     return (
-       <DataContext.Provider value={[activeStep,setActiveStep,handleNext,handleReset]}>
+       <DataContext.Provider value={[activeStep,setActiveStep,handleNext,handleReset,handleBack]}>
            <Card sx={{padding: "50px"}}>
            <Typography variant="h2">Examples with steps UI</Typography>
            <Typography>Fill the information and click next to finish the map.</Typography>
            <br /><br />
            <Grid container>
-               <Grid md={3} xs={12} sx={{borderRight:"0.5px solid lightgrey"}}>
+               <Grid item md={3} xs={12} sx={{borderRight:"0.5px solid lightgrey"}}>
                    <VerticalStepper />
                </Grid>
-               <Grid md={9} xs={12} sx={{padding: "20px"}}>
+               <Grid item md={9} xs={12} sx={{padding: "20px"}}>
                    <StepperContent />
                </Grid>
            </Grid>

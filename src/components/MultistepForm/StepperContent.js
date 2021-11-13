@@ -5,7 +5,10 @@ import { DataContext } from './MultistepForm';
 import "./StepperContent.css"
 
 const StepperContent = () => {
-    const [activeStep, setActiveStep,handleNext,handleReset] = useContext(DataContext);
+    const [activeStep, setActiveStep,handleNext,handleReset,handleBack] = useContext(DataContext);
+    console.log(activeStep)
+    const [mainData,setMainData] = useState(steps)
+    console.log(mainData)
     const [queItem,setQueItem] = useState([])
     const [stepScore,setStepScore] = useState()
     const [queId ,setQueId] = useState()
@@ -27,27 +30,67 @@ const StepperContent = () => {
         // setOptionInfo(opt.option)
         const newItem = [...queItem, opt]
         console.log(newItem)
-        const getItem = newItem?.map(elem => {
-           if(elem.queId === opt.queId){
-            return { ...elem ,score : opt.score };
-           }
-           else{
-               return {...elem}
-           }
-          })
+        // setQueItem(newItem)
+        // const getItem = newItem?.map(elem => {
+        //    if(elem.queId === opt.queId){
+        //     return { ...elem ,score : opt.score  };
+        //    }
+        //    else{
+        //        return {...elem }
+        //    }
+        //   })
+        //   console.log(getItem)
         let removeMatchQue = {};
-        getItem.forEach((user) => {
-            removeMatchQue[user.queId] = user; 
+        newItem.forEach((user) => {
+            removeMatchQue[user.option] = user; 
         });
         setQueItem(Object.values(removeMatchQue))
         console.log(Object.values(removeMatchQue));
-        
-        // const optionValue = newItem.map(val => val.option)
-        // console.log(optionValue)
-        // setOptionInfo(optionValue)
-        // const calculteScore = queItem.reduce(x,y => x.score + y.score )
-        
+        // setMainData(mainData.map(main => {
+        //         return {...main, options : main.options.map(data => {
+        //             if(data.queId === opt.queId && data.id === opt.id){
+        //                 return {...data , isActive : true}
+        //             }
+        //             else{
+        //                 return {...data}
+        //             }
+        //         })}
+           
+        // }))
+        setMainData(mainData?.map((main) => {
+                return {...main, info : main.info.map(subInfo => {
+                        return{...subInfo, options : subInfo.options.map(data => {
+                            if(data.queId === opt.queId && data.id === opt.id){
+                                return{...data, isActive : true}
+                            }
+                            else{
+                                return {...data}
+                            }
+                        })}
+                })}
+        }))
     }
+    
+
+
+    // const handleRemove = (opt) => {
+    //     console.log(opt)
+    //     setMainData(mainData?.map((main) => {
+    //         return {...main, info : main.info.map(subInfo => {
+    //                 return{...subInfo, options : subInfo.options.map(data => {
+    //                     if(data.isActive === true && data.id === opt.id && data.option === opt.option){
+    //                         return{...data, isActive : false, score : 0}
+    //                     }
+    //                     else{
+    //                         return {...data}
+    //                     }
+    //                 })}
+    //         })}
+    // }))
+
+
+    // }
+ 
   
 
     return (
@@ -57,7 +100,7 @@ const StepperContent = () => {
             {/* <Typography variant="h2">{steps[activeStep].info.title}</Typography>
             <Typography variant="h6">{steps[activeStep].info.info_descrition}</Typography> */}
             {
-                steps[activeStep].info.map((info,index) =>(
+                mainData[activeStep].info?.map((info,index) =>(
                     <div key={index}>
                         <div >
                         {info.question}
@@ -67,7 +110,7 @@ const StepperContent = () => {
                             <div>
                             {
                                 info.options.map((opt,index) => (
-                                    <Button  key={index} variant="outlined" style={{marginLeft:"0.6vh",marginTop:"2vh"}} onClick={() => handleOption(opt)} > {opt.option}</Button>
+                                    <Button  key={index} className={opt.isActive ? "active-btn" : ""} variant="outlined" style={{marginLeft:"0.6vh",marginTop:"2vh"}} onClick={() => handleOption(opt)} > {opt.option}</Button>
                                 ))
                             }
                             </div>
@@ -83,6 +126,14 @@ const StepperContent = () => {
                 steps[activeStep].info.input ? steps[activeStep].info.input : null
             }
             <br /> */}
+            <Button
+             variant ="contained"
+             disabled={activeStep === 0}
+                    onClick={handleBack}
+                    sx={{ mt: 1, mr: 1 }}
+                  >
+                    Previous
+            </Button>
             <Button
             variant="contained"
             size="large"
