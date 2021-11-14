@@ -65,7 +65,11 @@ const StepperContent = () => {
     const handleRemove = (opt) => {
         console.log(opt)
         // console.log(setStepScore)
-        setStepScore(stepScore - opt.score)
+        const filteredItem = queItem.filter((ind) => {
+            return ind.option !== opt.option
+          });
+          console.log(filteredItem)
+          setQueItem(filteredItem)
         setMainData(mainData?.map((main) => {
             return {...main, info : main.info.map(subInfo => {
                     return{...subInfo, options : subInfo.options.map(data => {
