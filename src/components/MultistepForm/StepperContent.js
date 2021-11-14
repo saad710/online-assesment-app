@@ -66,7 +66,7 @@ const StepperContent = () => {
         console.log(opt)
         // console.log(setStepScore)
         const filteredItem = queItem.filter((ind) => {
-            return ind.option !== opt.option
+            return ind.option !== opt.option 
           });
           console.log(filteredItem)
           setQueItem(filteredItem)

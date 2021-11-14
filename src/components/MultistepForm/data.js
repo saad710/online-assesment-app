@@ -157,19 +157,19 @@ export const steps = [
         options: [
             {
                 id: 1,
-                option: 'Martha',
+                option: 'Mature',
                 queId : "005",
 		            score: 15,
             },
             {
                 id: 2,
-                option: 'Mary',
+                option: 'lira',
                 queId : "005",
                 score: 10,
             },
             {
                 id: 3,
-                option: 'Martha, Mary, May',
+                option: 'walke',
                 queId : "005",
                 score: 5,
             },
@@ -183,19 +183,19 @@ export const steps = [
       options: [
           {
               id: 1,
-              option: 'Martha',
+              option: 'louasd',
               queId : "006",
               score: 10,
           },
           {
               id: 2,
-              option: 'Mary',
+              option: 'pious',
               queId : "006",
               score: 10,
           },
           {
               id: 3,
-              option: 'Martha, Mary, May',
+              option: 'bigin',
               queId : "006",
               score: 5,
           },
@@ -225,19 +225,19 @@ export const steps = [
           options: [
               {
                   id: 1,
-                  option: 'Martha',
+                  option: 'Majhe',
                   queId : "007",
                   score: 15,
               },
               {
                   id: 2,
-                  option: 'Mary',
+                  option: 'pinad',
                   queId : "007",
                   score: 10,
               },
               {
                   id: 3,
-                  option: 'Martha, Mary, May',
+                  option: 'walton',
                   queId : "007",
                   score: 5,
               },
@@ -251,19 +251,19 @@ export const steps = [
         options: [
             {
                 id: 1,
-                option: 'Martha',
+                option: 'rila',
                 queId : "008",
                 score: 10,
             },
             {
                 id: 2,
-                option: 'Mary',
+                option: 'flora',
                 queId : "008",
                 score: 10,
             },
             {
                 id: 3,
-                option: 'Martha, Mary, May',
+                option: 'ryzenburg',
                 queId : "008",
                 score: 5,
             },
@@ -293,19 +293,19 @@ export const steps = [
           options: [
               {
                   id: 1,
-                  option: 'Martha',
+                  option: 'ruyal',
                   queId : "009",
                   score: 15,
               },
               {
                   id: 2,
-                  option: 'Mary',
+                  option: 'prujas',
                   queId : "009",
                   score: 10,
               },
               {
                   id: 3,
-                  option: 'Martha, Mary, May',
+                  option: 'toyonto',
                   queId : "009",
                   score: 5,
               },
@@ -319,19 +319,19 @@ export const steps = [
         options: [
             {
                 id: 1,
-                option: 'Martha',
+                option: 'beta',
                 queId : "010",
                 score: 10,
             },
             {
                 id: 2,
-                option: 'Mary',
+                option: 'alpha',
                 queId : "010",
                 score: 10,
             },
             {
                 id: 3,
-                option: 'Martha, Mary, May',
+                option: 'gama',
                 queId : "010",
                 score: 5,
             },
