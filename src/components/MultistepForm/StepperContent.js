@@ -22,7 +22,7 @@ const StepperContent = () => {
         
     },[queItem])
     
-    const handleOption = (opt) => {
+    const handleOption = (opt,info) => {
         console.log(opt.score)
         console.log(opt.queId)
         setQueId(opt.queId)
@@ -45,7 +45,44 @@ const StepperContent = () => {
         // });
         // setQueItem(Object.values(removeMatchQue))
         // console.log(Object.values(removeMatchQue));
+
+        // const count = storage.filter(item => item.status === '0').length; // 6
+
+
+// const counts = {};
+// const sampleArray = ['a', 'a', 'b', 'c'];
+// sampleArray.forEach(function (x) { counts[x] = (counts[x] || 0) + 1; });
+// console.log(counts)
       
+
+// var data= [
+//     {day:'Friday'   , name: 'John'      },
+//     {day:'Friday'   , name: 'John'      },
+//     {day:'Friday'   , name: 'Marium'    },
+//     {day:'Wednesday', name: 'Stephanie' },
+//     {day:'Monday'   , name: 'Chris'     },
+//     {day:'Monday'   , name: 'Marium'    },
+//     ];
+    
+// console.log(getUniqueDataCount(data, 'day'));       
+
+// function getUniqueDataCount(objArr, propName) {
+//   var data = [];
+//   objArr.forEach(function (d, index) {
+//       if (d[propName]) {
+//           data.push(d[propName]);
+//       }
+//   });
+
+//   var uniqueList = [...new Set(data)];
+
+//   var dataSet = {};
+//   for (var i=0; i < uniqueList.length; i++) {
+//       dataSet[uniqueList[i]] = data.filter(x => x == uniqueList[i]).length;
+//   }
+
+//   return dataSet;
+// }
         
         setMainData(mainData?.map((main) => {
                 return {...main, info : main.info.map(subInfo => {
@@ -105,7 +142,7 @@ const StepperContent = () => {
                             <div>
                             {
                                 info.options.map((opt,index) => (
-                                    <Button  key={index} className={opt.isActive ? "active-btn" : ""} variant="outlined" style={{marginLeft:"0.6vh",marginTop:"2vh"}} onClick={() => opt.isActive? handleRemove(opt) : handleOption(opt)} > {opt.option}</Button>
+                                    <Button  key={index} className={opt.isActive ? "active-btn" : ""} variant="outlined" style={{marginLeft:"0.6vh",marginTop:"2vh"}} onClick={() => opt.isActive? handleRemove(opt) : handleOption(opt,info)} > {opt.option}</Button>
                                 ))
                             }
                             </div>
