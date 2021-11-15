@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Typography } from '@mui/material';
+import { Box, Button, Divider, Popover, Typography } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import { steps } from './data';
 import { DataContext } from './MultistepForm';
@@ -13,7 +13,14 @@ const StepperContent = () => {
     const [stepScore,setStepScore] = useState()
     const [queId ,setQueId] = useState()
     const [optionInfo,setOptionInfo] = useState([""])
+    const [maxError,setMaxError] = useState(false)
+    const [anchorEl, setAnchorEl] = React.useState(null);
     console.log(queItem)
+
+    const handleClose = () => {
+        setAnchorEl(null);
+        setMaxError(false)
+      };
 
     useEffect(() =>  {
             const totalScore = queItem.reduce((total,item) =>  total + item.score ,0)
@@ -21,15 +28,39 @@ const StepperContent = () => {
             setStepScore(totalScore)
         
     },[queItem])
+
     
-    const handleOption = (opt,info) => {
+    
+    const handleOption = (opt,info,event) => {
+        console.log(info.options)
         console.log(opt.score)
         console.log(opt.queId)
+        setAnchorEl(event.currentTarget);
         setQueId(opt.queId)
+        const max = 2;
         // setOptionInfo(opt.option)
         const newItem = [...queItem, opt]
         console.log(newItem)
-        setQueItem(newItem)
+        // setQueItem(newItem)
+        const dataItemLength = newItem.filter(x => x.queId === opt.queId).length
+        console.log(dataItemLength)
+
+        //set-max-value
+        if(max){
+            if(dataItemLength < max + 1){
+                setQueItem(newItem)
+            }
+            else{
+                setMaxError(true)
+            }
+        }
+        else{
+            setQueItem(newItem)
+        }
+        
+
+        //value_count 
+
         // const getItem = newItem?.map(elem => {
         //    if(elem.queId === opt.queId){
         //     return { ...elem ,score : opt.score  };
@@ -64,40 +95,53 @@ const StepperContent = () => {
 //     {day:'Monday'   , name: 'Marium'    },
 //     ];
     
-// console.log(getUniqueDataCount(data, 'day'));       
+console.log(getUniqueDataCount(newItem, 'queId'));   
+const countData = getUniqueDataCount(newItem, 'queId')
+console.log(Object.values(countData))
 
-// function getUniqueDataCount(objArr, propName) {
-//   var data = [];
-//   objArr.forEach(function (d, index) {
-//       if (d[propName]) {
-//           data.push(d[propName]);
-//       }
-//   });
 
-//   var uniqueList = [...new Set(data)];
 
-//   var dataSet = {};
-//   for (var i=0; i < uniqueList.length; i++) {
-//       dataSet[uniqueList[i]] = data.filter(x => x == uniqueList[i]).length;
-//   }
 
-//   return dataSet;
-// }
+
+function getUniqueDataCount(objArr, propName) {
+  let data = [];
+  objArr.forEach(function (d, index) {
+      if (d[propName]) {
+          data.push(d[propName]);
+      }
+  });
+  console.log(data)
+  let uniqueList = [...new Set(data)];
+  console.log(uniqueList)
+
+  let dataSet = {};
+    uniqueList.forEach(unique => {
+        dataSet[unique] = data.filter(x => x === unique).length
+    })
+    console.log(dataSet)
+    
+  return dataSet;
+}
+
+
         
         setMainData(mainData?.map((main) => {
                 return {...main, info : main.info.map(subInfo => {
-                        return{...subInfo, options : subInfo.options.map(data => {
-                            if(data.queId === opt.queId && data.id === opt.id){
-                                return{...data, isActive : true}
+                        return{...subInfo, options : subInfo.options.map((data,index) => {
+                            if(data.queId === opt.queId && data.id === opt.id && dataItemLength < max + 1){
+                                return{...data, isActive : true }
                             }
                             else{
                                 return {...data}
                             }
+
                         })}
                 })}
         }))
     }
 
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
 
     const handleRemove = (opt) => {
         console.log(opt)
@@ -142,9 +186,10 @@ const StepperContent = () => {
                             <div>
                             {
                                 info.options.map((opt,index) => (
-                                    <Button  key={index} className={opt.isActive ? "active-btn" : ""} variant="outlined" style={{marginLeft:"0.6vh",marginTop:"2vh"}} onClick={() => opt.isActive? handleRemove(opt) : handleOption(opt,info)} > {opt.option}</Button>
+                                    <Button aria-describedby={id} key={index} className={opt.isActive ? "active-btn" : ""} variant="outlined" style={{marginLeft:"0.6vh",marginTop:"2vh"}} onClick={(event) => opt.isActive? handleRemove(opt,event) : handleOption(opt,info,event)} > {opt.option}</Button>
                                 ))
                             }
+                            
                             </div>
                          {/* ))
                      } */}
@@ -152,6 +197,21 @@ const StepperContent = () => {
                 ))
             }
             <br />
+            { maxError ? 
+            // <p style={{color:'red'}}>maximum two value</p> 
+            <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+          >
+             <Typography sx={{ p: 2 }}>Two maximum value will be allowed</Typography>
+      </Popover>  
+              : ''}
             <Divider />
             {/* <br />
             {
