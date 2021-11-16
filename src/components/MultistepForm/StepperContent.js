@@ -5,17 +5,43 @@ import { DataContext } from './MultistepForm';
 import "./StepperContent.css"
 
 const StepperContent = () => {
-    const [activeStep, setActiveStep,handleNext,handleReset,handleBack] = useContext(DataContext);
+    const [activeStep, setActiveStep,handleReset,handleBack] = useContext(DataContext);
     console.log(activeStep)
     const [mainData,setMainData] = useState(steps)
     console.log(mainData)
     const [queItem,setQueItem] = useState([])
     const [stepScore,setStepScore] = useState()
     const [queId ,setQueId] = useState()
-    const [optionInfo,setOptionInfo] = useState([""])
+    const [optionInfo,setOptionInfo] = useState()
     const [maxError,setMaxError] = useState(false)
+    const [minError,setMinError] = useState(false)
     const [anchorEl, setAnchorEl] = React.useState(null);
+    
     console.log(queItem)
+
+    // const dataInfo = mainData[activeStep]?.map(main => main.info.length)
+    // console.log(dataInfo)
+
+
+    const handleNext = () => {
+       if(minError === true){
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+       }
+       else{
+        setActiveStep((prevActiveStep) => prevActiveStep);
+       }
+        console.log(queId)
+        console.log("active: ",activeStep)
+
+    //    let collectLength;
+    //     mainData.map((main,index) => {
+    //         console.log(index)
+    //         if(index === activeStep){
+    //            console.log(main.info.length)
+    //             collectLength = main.info.length;   
+    //         }
+    //     })
+      };
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -26,37 +52,44 @@ const StepperContent = () => {
             const totalScore = queItem.reduce((total,item) =>  total + item.score ,0)
             console.log(totalScore)
             setStepScore(totalScore)
-        
     },[queItem])
 
-    
-    
     const handleOption = (opt,info,event) => {
         console.log(info.options)
+       console.log(mainData[activeStep].info)
         console.log(opt.score)
         console.log(opt.queId)
-        setAnchorEl(event.currentTarget);
         setQueId(opt.queId)
         const max = 2;
         // setOptionInfo(opt.option)
         const newItem = [...queItem, opt]
         console.log(newItem)
         // setQueItem(newItem)
-        const dataItemLength = newItem.filter(x => x.queId === opt.queId).length
+        const dataItemLength = newItem.filter(x => info.id === opt.queId).length
         console.log(dataItemLength)
 
+        if(dataItemLength <= 1){
+            setMinError(false)
+        }
+        if(dataItemLength <= 2){
+            setMinError(true)
+        }
         //set-max-value
         if(max){
             if(dataItemLength < max + 1){
                 setQueItem(newItem)
+                setMinError(true)
             }
             else{
                 setMaxError(true)
+                setAnchorEl(event.currentTarget);
             }
         }
-        else{
-            setQueItem(newItem)
-        }
+        // else{
+        //     setQueItem(newItem)
+        // }
+
+        
         
 
         //value_count 
@@ -95,39 +128,33 @@ const StepperContent = () => {
 //     {day:'Monday'   , name: 'Marium'    },
 //     ];
     
-console.log(getUniqueDataCount(newItem, 'queId'));   
-const countData = getUniqueDataCount(newItem, 'queId')
-console.log(Object.values(countData))
+// console.log(getUniqueDataCount(newItem, 'queId'));   
+// const countData = getUniqueDataCount(newItem, 'queId')
+// console.log(Object.values(countData))
 
+// function getUniqueDataCount(objArr, propName) {
+//   let data = [];
+//   objArr.forEach(function (d, index) {
+//       if (d[propName]) {
+//           data.push(d[propName]);
+//       }
+//   });
+//   console.log(data)
+//   let uniqueList = [...new Set(data)];
+//   console.log(uniqueList)
 
-
-
-
-function getUniqueDataCount(objArr, propName) {
-  let data = [];
-  objArr.forEach(function (d, index) {
-      if (d[propName]) {
-          data.push(d[propName]);
-      }
-  });
-  console.log(data)
-  let uniqueList = [...new Set(data)];
-  console.log(uniqueList)
-
-  let dataSet = {};
-    uniqueList.forEach(unique => {
-        dataSet[unique] = data.filter(x => x === unique).length
-    })
-    console.log(dataSet)
+//   let dataSet = {};
+//     uniqueList.forEach(unique => {
+//         dataSet[unique] = data.filter(x => x === unique).length
+//     })
+//     console.log(dataSet)
     
-  return dataSet;
-}
-
-
+//   return dataSet;
+// }
         
         setMainData(mainData?.map((main) => {
                 return {...main, info : main.info.map(subInfo => {
-                        return{...subInfo, options : subInfo.options.map((data,index) => {
+                        return{...subInfo, clicked : true , options : subInfo.options.map((data,index) => {
                             if(data.queId === opt.queId && data.id === opt.id && dataItemLength < max + 1){
                                 return{...data, isActive : true }
                             }
@@ -153,7 +180,7 @@ function getUniqueDataCount(objArr, propName) {
           setQueItem(filteredItem)
         setMainData(mainData?.map((main) => {
             return {...main, info : main.info.map(subInfo => {
-                    return{...subInfo, options : subInfo.options.map(data => {
+                    return{...subInfo, clicked : false, options : subInfo.options.map(data => {
                         if(data.queId === opt.queId && data.id === opt.id){
                             return{...data, isActive : false}
                         }
@@ -163,8 +190,6 @@ function getUniqueDataCount(objArr, propName) {
                     })}
             })}
     }))
-
-
     }
  
   

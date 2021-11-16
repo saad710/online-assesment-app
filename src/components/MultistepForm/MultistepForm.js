@@ -11,10 +11,10 @@ const MultistepForm = () => {
     const [activeStep, setActiveStep] = React.useState(0);
 
 
-    const handleNext = () => {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      console.log("active: ",activeStep)
-    };
+    // const handleNext = () => {
+    //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    //   console.log("active: ",activeStep)
+    // };
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
       };
@@ -27,7 +27,7 @@ const MultistepForm = () => {
       setActiveStep(0);
     };
     return (
-       <DataContext.Provider value={[activeStep,setActiveStep,handleNext,handleReset,handleBack]}>
+       <DataContext.Provider value={[activeStep,setActiveStep,handleReset,handleBack]}>
            <Card sx={{padding: "50px"}}>
            <Typography variant="h2">Examples with steps UI</Typography>
            <Typography>Fill the information and click next to finish the map.</Typography>
