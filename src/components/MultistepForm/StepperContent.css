@@ -9,3 +9,9 @@
     background-color:#ff5c8e!important;
     color: white !important;
 }
+.min-error-info {
+    background-color:#ff5c8e ;
+    color:white;
+    padding:1vh;
+    border-radius: 5px;
+}

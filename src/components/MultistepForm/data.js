@@ -17,6 +17,8 @@ export const steps = [
       info:  [ {
         id: "001",
         question: 'Martha ,Mary, May, Made Marvelous Milk. In that sentence who made the milk? ',
+        max : 3,
+        min: 2,
         options: [
             {
                 id: 1,
@@ -36,6 +38,12 @@ export const steps = [
                 queId : "001",
                 score: 5,
             },
+            {
+                id: 4,
+                option: 'Latham',
+                queId : "001",
+                score: 10,
+            },
         ],
 
     },
@@ -43,6 +51,8 @@ export const steps = [
     {
       id: "002",
       question: 'who found the box of milk?',
+      max : 3,
+      min:2,
       options: [
           {
               id: 1,
@@ -62,6 +72,12 @@ export const steps = [
               queId : "002",
               score: 5,
           },
+          {
+            id: 4,
+            option: 'Grand',
+            queId : "002",
+            score: 10,
+        },
       ],
 
   },
