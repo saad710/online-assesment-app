@@ -4,117 +4,99 @@ import { steps } from './data';
 import { DataContext } from './MultistepForm';
 import "./StepperContent.css"
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
-import { indigo } from '@mui/material/colors';
 
 const StepperContent = () => {
-    const [activeStep, setActiveStep,handleReset,handleBack] = useContext(DataContext);
+    const [activeStep, setActiveStep, handleReset, handleBack] = useContext(DataContext);
     console.log(activeStep)
-    const [mainData,setMainData] = useState(steps)
+    const [mainData, setMainData] = useState(steps)
     console.log(mainData)
-    const [queItem,setQueItem] = useState([])
-    const [stepScore,setStepScore] = useState()
-    const [queId ,setQueId] = useState()
-    const [optionInfo,setOptionInfo] = useState([""])
-    const [maxError,setMaxError] = useState(false)
-    const [SolveQueErr,setSolveQueErr] = useState(false)
-    const [SolveQueErrInfo,setSolveQueErrInfo] = useState(false)
+    const [queItem, setQueItem] = useState([])
+    const [stepScore, setStepScore] = useState()
+    const [maxError, setMaxError] = useState(false)
+    const [SolveQueErr, setSolveQueErr] = useState(false)
+    const [SolveQueErrInfo, setSolveQueErrInfo] = useState(false)
     const [anchorEl, setAnchorEl] = React.useState(null);
     console.log(queItem)
 
-    
-
-
+    //next-step-handler
     const handleNext = () => {
-        if(SolveQueErr === true){
+        if (SolveQueErr === true) {
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
-            console.log("active: ",activeStep)
+            console.log("active: ", activeStep)
             setSolveQueErr(null)
             setSolveQueErrInfo(false)
         }
-        else{
+        else {
             setSolveQueErrInfo(true)
         }
-      };
+    };
 
+    //pop-over-max-close
     const handleClose = () => {
         setAnchorEl(null);
         setMaxError(false)
-      };
+    };
 
-    useEffect(() =>  {
-            const totalScore = queItem.reduce((total,item) =>  total + item.score ,0)
-            console.log(totalScore)
-            setStepScore(totalScore)
+    useEffect(() => {
+        const totalScore = queItem.reduce((total, item) => total + item.score, 0)
+        console.log(totalScore)
+        setStepScore(totalScore)
+        //function-countData-which-are-active
+        console.log(getUniqueDataCount(queItem, 'queId'));
+        const countData = getUniqueDataCount(queItem, 'queId')
 
-            
-                console.log(getUniqueDataCount(queItem, 'queId'));   
-                const countData = getUniqueDataCount(queItem, 'queId')
-                console.log(countData['001'])
-                console.log(Object.values(countData))
-                const dataCount = Object.values(countData).length
-                console.log(dataCount)
-                console.log(mainData[activeStep].info.length)
-                // if(dataCount < mainData[activeStep].info.length){
-                //     setSolveQueErr(false)
-                //     console.log('hh')
-                // }
-        
-               let val = []
-               let minData = []
-                mainData[activeStep].info.map((sub,index) => {
-                    console.log(countData[sub.id])
-                    let minCount = countData[sub.id]
-                    console.log(minCount)
-                    val.push(minCount)
-                    console.log(val)
-                    const afterVal = val.filter(x => x !== undefined)
-                    console.log(afterVal)
-                    minData.push(sub.min)
-                    console.log(minData)
-                    console.log(minData === afterVal)
+        //min-data-check-and-all-que-check
+        let val = []
+        let minData = []
+        mainData[activeStep].info.map((sub, index) => {
+            console.log(countData[sub.id])
+            let minCount = countData[sub.id]
+            console.log(minCount)
+            val.push(minCount)
+            console.log(val)
+            const afterVal = val.filter(x => x !== undefined)
+            console.log(afterVal)
 
-                    // const arr1 = ['a', 'b', 'c'];
-                    // const arr2 = ['a', 'b', 'c'];
+            //min-value-undefined-check
+            if (sub.min !== undefined) {
+                minData.push(sub.min)
+            }
+            else {
+                minData.push(1)
+            }
+            console.log(minData)
+            console.log(minData === afterVal)
 
-                    function areEqual(array1, array2) {
-                    if (array1.length === array2.length) {
-                        return array1.every((element, index) => {
+            //array-match-for-minData-and-countValue
+            function areEqual(array1, array2) {
+                if (array1.length === array2.length) {
+                    return array1.every((element, index) => {
                         if (element <= array2[index]) {
                             // console.log(element)
                             return true;
                         }
-
                         return false;
-                        });
-                    }
+                    });
+                }
+                return false;
+            }
 
-                    return false;
-                    }
+            //areEqual-function
+            console.log(areEqual(minData, afterVal));
+            const resultData = areEqual(minData, afterVal)
+            console.log(resultData)
 
-                    console.log(areEqual(minData, afterVal));
-                    const resultData = areEqual(minData, afterVal)
-                    console.log(resultData)
-                   
-                    // if(mainData !== after)
-                //    if(afterVal[index] < mainData[activeStep].info[index].min){
-                //     setSolveQueErr(false)
-                //    }
-                   
-                  
-                    if(minCount >= 1 && afterVal.length ===  mainData[activeStep].info.length && resultData === true){
-                        setSolveQueErr(true)
-                    }
-                    else{
-                        setSolveQueErr(false)
-                    }
-                })
-              
-                // console.log(SolveQueErr)
-                // const afterVal = val.filter()
-            
-               
-          
-            function getUniqueDataCount(objArr, propName) {
+            //next-step-check
+            if (minCount >= 1 && afterVal.length === mainData[activeStep].info.length && resultData === true) {
+                setSolveQueErr(true)
+            }
+            else {
+                setSolveQueErr(false)
+            }
+        })
+
+        //function-for-count-data-which-was-active
+        function getUniqueDataCount(objArr, propName) {
             let data = [];
             objArr.forEach(function (d, index) {
                 if (d[propName]) {
@@ -124,287 +106,164 @@ const StepperContent = () => {
             console.log(data)
             let uniqueList = [...new Set(data)];
             console.log(uniqueList)
-    
-            let dataSet = {};
-                uniqueList.forEach(unique => {
-                    dataSet[unique] = data.filter(x => x === unique).length
-                })
-                console.log(dataSet)
-                
-            return dataSet;
-            }
-        
-    },[queItem,activeStep,mainData,SolveQueErr])
 
-    
-    
-    const handleOption = (opt,info,event) => {
+            let dataSet = {};
+            uniqueList.forEach(unique => {
+                dataSet[unique] = data.filter(x => x === unique).length
+            })
+            console.log(dataSet)
+
+            return dataSet;
+        }
+
+    }, [queItem, activeStep, mainData, SolveQueErr])
+
+
+    //option-active-button-handler
+    const handleOption = (opt, info, event) => {
         setSolveQueErrInfo(false)
-        console.log(mainData[activeStep].info)
-        console.log(info.options)
-        console.log(opt.score)
-        console.log(opt.queId)
-        setQueId(opt.queId)
+        //find-max-val
         const max = info.max ? info.max : info.options.length;
-        const min = info.min ? info.min : info.options.length;
-       
         console.log(max)
-        // const min = 1;
-        // setOptionInfo(opt.option)
+
+        //put-active-item
         const newItem = [...queItem, opt]
         console.log(newItem)
-        // setQueItem(newItem)
 
-        // console.log(getUniqueDataCount(newItem, 'queId'));   
-        // const countData = getUniqueDataCount(newItem, 'queId')
-        // console.log(Object.values(countData))
-
-       
-        // mainData[activeStep].info.map((sub) => {
-        //     console.log(countData[sub.id])
-        //     let minCount = countData[sub.id]
-        //     if(1 >= minCount){
-        //         setSolveQueErr(true)
-        //     }
-        //     else{
-        //         setSolveQueErr(false)
-        //     }
-        // })
-        // console.log(SolveQueErr)
-      
-    
-        
-
-        // function getUniqueDataCount(objArr, propName) {
-        // let data = [];
-        // objArr.forEach(function (d, index) {
-        //     if (d[propName]) {
-        //         data.push(d[propName]);
-        //     }
-        // });
-        // console.log(data)
-        // let uniqueList = [...new Set(data)];
-        // console.log(uniqueList)
-
-        // let dataSet = {};
-        //     uniqueList.forEach(unique => {
-        //         dataSet[unique] = data.filter(x => x === unique).length
-        //     })
-        //     console.log(dataSet)
-            
-        // return dataSet;
-        // }
-
-
+        //same-active-item-count
         const dataItemLength = newItem.filter(x => x.queId === opt.queId).length
         console.log(dataItemLength)
-       
-        // if(dataItemLength < min){
-        //     console.log("need min value")
-        //     setSolveQueErr(false)
-        // }
-        // else{
-        //     console.log('no need')
-        // }
-        
+
 
         //set-max-value
-        if(max){
-            if(dataItemLength < max + 1){
+        if (max) {
+            if (dataItemLength < max + 1) {
                 setQueItem(newItem)
             }
-            else{
+            else {
                 setMaxError(true)
                 setAnchorEl(event.currentTarget);
             }
         }
-        else{
+        else {
             setQueItem(newItem)
         }
-        
 
-        //value_count 
-
-        // const getItem = newItem?.map(elem => {
-        //    if(elem.queId === opt.queId){
-        //     return { ...elem ,score : opt.score  };
-        //    }
-        //    else{
-        //        return {...elem }
-        //    }
-        //   })
-        //   console.log(getItem)
-        // let removeMatchQue = {};
-        // newItem.forEach((user) => {
-        //     removeMatchQue[user.option] = user; 
-        // });
-        // setQueItem(Object.values(removeMatchQue))
-        // console.log(Object.values(removeMatchQue));
-
-        // const count = storage.filter(item => item.status === '0').length; // 6
-
-
-// const counts = {};
-// const sampleArray = ['a', 'a', 'b', 'c'];
-// sampleArray.forEach(function (x) { counts[x] = (counts[x] || 0) + 1; });
-// console.log(counts)
-      
-
-// var data= [
-//     {day:'Friday'   , name: 'John'      },
-//     {day:'Friday'   , name: 'John'      },
-//     {day:'Friday'   , name: 'Marium'    },
-//     {day:'Wednesday', name: 'Stephanie' },
-//     {day:'Monday'   , name: 'Chris'     },
-//     {day:'Monday'   , name: 'Marium'    },
-//     ];
-    
-// console.log(getUniqueDataCount(newItem, 'queId'));   
-// const countData = getUniqueDataCount(newItem, 'queId')
-// console.log(Object.values(countData))
-
-
-
-
-
-// function getUniqueDataCount(objArr, propName) {
-//   let data = [];
-//   objArr.forEach(function (d, index) {
-//       if (d[propName]) {
-//           data.push(d[propName]);
-//       }
-//   });
-//   console.log(data)
-//   let uniqueList = [...new Set(data)];
-//   console.log(uniqueList)
-
-//   let dataSet = {};
-//     uniqueList.forEach(unique => {
-//         dataSet[unique] = data.filter(x => x === unique).length
-//     })
-//     console.log(dataSet)
-    
-//   return dataSet;
-// }
-
-
-        
+        //set-isActive-in-mainData-after-clicked
         setMainData(mainData?.map((main) => {
-                return {...main, info : main.info.map(subInfo => {
-                        return{...subInfo, options : subInfo.options.map((data,index) => {
-                            if(data.queId === opt.queId && data.id === opt.id && dataItemLength < max + 1){
-                                return{...data, isActive : true }
+            return {
+                ...main, info: main.info.map(subInfo => {
+                    return {
+                        ...subInfo, options: subInfo.options.map((data, index) => {
+                            if (data.queId === opt.queId && data.id === opt.id && dataItemLength < max + 1) {
+                                return { ...data, isActive: true }
                             }
-                            else{
-                                return {...data}
+                            else {
+                                return { ...data }
                             }
 
-                        })}
-                })}
+                        })
+                    }
+                })
+            }
         }))
     }
 
+    //popover
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
+    //remove-active-value-handler
     const handleRemove = (opt) => {
         console.log(opt)
-        // console.log(setStepScore)
+        //filter-item-for-score-reduce-when-isActive-false
         const filteredItem = queItem.filter((ind) => {
-            return ind.option !== opt.option 
-          });
-          console.log(filteredItem)
-          setQueItem(filteredItem)
+            return ind.option !== opt.option
+        });
+        console.log(filteredItem)
+
+        //set-the-filtered-item-in-state
+        setQueItem(filteredItem)
+
+        //set-isActive-false-in-main-state
         setMainData(mainData?.map((main) => {
-            return {...main, info : main.info.map(subInfo => {
-                    return{...subInfo, options : subInfo.options.map(data => {
-                        if(data.queId === opt.queId && data.id === opt.id){
-                            return{...data, isActive : false}
-                        }
-                        else{
-                            return {...data}
-                        }
-                    })}
-            })}
-    }))
-
-
+            return {
+                ...main, info: main.info.map(subInfo => {
+                    return {
+                        ...subInfo, options: subInfo.options.map(data => {
+                            if (data.queId === opt.queId && data.id === opt.id) {
+                                return { ...data, isActive: false }
+                            }
+                            else {
+                                return { ...data }
+                            }
+                        })
+                    }
+                })
+            }
+        }))
     }
- 
-  
 
     return (
         <Box sx={{ mb: 2 }}>
             <h3> Score : {stepScore}</h3>
-            <h4>  {"step " +(activeStep + 1) + "/" + steps.length}</h4>
-            {SolveQueErrInfo ?<Grid className="min-error-info" container> 
-            <Grid item > 
-            <ErrorOutlineOutlinedIcon/> 
-            </Grid> 
-            <Grid item xs={7} style={{fontWeight:'500'}}>
-                You have to select minimum option !
-                </Grid> 
-                </Grid> : null}
-                <br/>
-            {/* <Typography variant="h2">{steps[activeStep].info.title}</Typography>
-            <Typography variant="h6">{steps[activeStep].info.info_descrition}</Typography> */}
+            <h4>  {"step " + (activeStep + 1) + "/" + steps.length}</h4>
+            {SolveQueErrInfo ? <Grid className="min-error-info" container>
+                <Grid item >
+                    <ErrorOutlineOutlinedIcon />
+                </Grid>
+                <Grid item xs={7} style={{ fontWeight: '500' }}>
+                    You have to select minimum option !
+                </Grid>
+            </Grid> : null}
+            <br />
             {
-                mainData[activeStep].info?.map((info,index) =>(
+                mainData[activeStep].info?.map((info, index) => (
                     <div key={index}>
                         <div >
-                        {info.question}
+                            {info.question}
                         </div>
-                     {/* {
-                         optionInfo?.map((option,index) => ( */}
-                            <div>
+                        <div>
                             {
-                                info.options.map((opt,index) => (
-                                    <Button aria-describedby={id} key={index} className={opt.isActive ? "active-btn" : ""} variant="outlined" style={{marginLeft:"0.6vh",marginTop:"2vh"}} onClick={(event) => opt.isActive? handleRemove(opt,event) : handleOption(opt,info,event,index)} > {opt.option}</Button>
+                                info.options.map((opt, index) => (
+                                    <Button aria-describedby={id} key={index} className={opt.isActive ? "active-btn" : ""} variant="outlined" style={{ marginLeft: "0.6vh", marginTop: "2vh" }} onClick={(event) => opt.isActive ? handleRemove(opt, event) : handleOption(opt, info, event, index)} > {opt.option}</Button>
                                 ))
                             }
-                            
-                            </div>
-                         {/* ))
-                     } */}
+
+                        </div>
                     </div>
                 ))
             }
             <br />
-            { maxError ? 
-            // <p style={{color:'red'}}>maximum two value</p> 
-            <Popover
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-          >
-             <Typography sx={{ p: 2 }}>Two maximum value will be allowed</Typography>
-      </Popover>  
-              : ''}
+            {maxError ? 
+                <Popover
+                    id={id}
+                    open={open}
+                    anchorEl={anchorEl}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                >
+                    <Typography sx={{ p: 2 }}>Two maximum value will be allowed</Typography>
+                </Popover>
+                : ''}
             <Divider />
-            {/* <br />
-            {
-                steps[activeStep].info.input ? steps[activeStep].info.input : null
-            }
-            <br /> */}
             <Button
-             variant ="contained"
-             disabled={activeStep === 0}
-                    onClick={handleBack}
-                    sx={{ mt: 1, mr: 1 }}
-                  >
-                    Previous
+                variant="contained"
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                sx={{ mt: 1, mr: 1 }}
+            >
+                Previous
             </Button>
             <Button
-            variant="contained"
-            size="large"
-            onClick={() => {activeStep < (steps.length -1) ? handleNext() : handleReset()}}
-            sx={{ mt: 1, ml: "70%" }}
-            >{activeStep < (steps.length -1) ? "Next" : "Finish & Reset"}</Button>
+                variant="contained"
+                size="large"
+                onClick={() => { activeStep < (steps.length - 1) ? handleNext() : handleReset() }}
+                sx={{ mt: 1, ml: "70%" }}
+            >{activeStep < (steps.length - 1) ? "Next" : "Finish & Reset"}</Button>
         </Box>
     );
 };
