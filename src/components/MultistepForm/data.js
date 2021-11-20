@@ -52,7 +52,7 @@ export const steps = [
       id: "002",
       question: 'who found the box of milk?',
       max : 3,
-      min:2,
+      min:1,
       options: [
           {
               id: 1,

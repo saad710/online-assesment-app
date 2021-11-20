@@ -21,12 +21,15 @@ const StepperContent = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     console.log(queItem)
 
+    
+
 
     const handleNext = () => {
         if(SolveQueErr === true){
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
             console.log("active: ",activeStep)
             setSolveQueErr(null)
+            setSolveQueErrInfo(false)
         }
         else{
             setSolveQueErrInfo(true)
@@ -57,7 +60,8 @@ const StepperContent = () => {
                 // }
         
                let val = []
-                mainData[activeStep].info.map((sub) => {
+               let minData = []
+                mainData[activeStep].info.map((sub,index) => {
                     console.log(countData[sub.id])
                     let minCount = countData[sub.id]
                     console.log(minCount)
@@ -65,8 +69,39 @@ const StepperContent = () => {
                     console.log(val)
                     const afterVal = val.filter(x => x !== undefined)
                     console.log(afterVal)
+                    minData.push(sub.min)
+                    console.log(minData)
+                    console.log(minData === afterVal)
+
+                    // const arr1 = ['a', 'b', 'c'];
+                    // const arr2 = ['a', 'b', 'c'];
+
+                    function areEqual(array1, array2) {
+                    if (array1.length === array2.length) {
+                        return array1.every((element, index) => {
+                        if (element <= array2[index]) {
+                            // console.log(element)
+                            return true;
+                        }
+
+                        return false;
+                        });
+                    }
+
+                    return false;
+                    }
+
+                    console.log(areEqual(minData, afterVal));
+                    const resultData = areEqual(minData, afterVal)
+                    console.log(resultData)
                    
-                    if(minCount >= 1 && afterVal.length ===  mainData[activeStep].info.length ){
+                    // if(mainData !== after)
+                //    if(afterVal[index] < mainData[activeStep].info[index].min){
+                //     setSolveQueErr(false)
+                //    }
+                   
+                  
+                    if(minCount >= 1 && afterVal.length ===  mainData[activeStep].info.length && resultData === true){
                         setSolveQueErr(true)
                     }
                     else{
@@ -111,6 +146,8 @@ const StepperContent = () => {
         console.log(opt.queId)
         setQueId(opt.queId)
         const max = info.max ? info.max : info.options.length;
+        const min = info.min ? info.min : info.options.length;
+       
         console.log(max)
         // const min = 1;
         // setOptionInfo(opt.option)
@@ -161,6 +198,15 @@ const StepperContent = () => {
 
         const dataItemLength = newItem.filter(x => x.queId === opt.queId).length
         console.log(dataItemLength)
+       
+        // if(dataItemLength < min){
+        //     console.log("need min value")
+        //     setSolveQueErr(false)
+        // }
+        // else{
+        //     console.log('no need')
+        // }
+        
 
         //set-max-value
         if(max){
@@ -296,7 +342,7 @@ const StepperContent = () => {
             <ErrorOutlineOutlinedIcon/> 
             </Grid> 
             <Grid item xs={7} style={{fontWeight:'500'}}>
-                You have to select minimum one option !
+                You have to select minimum option !
                 </Grid> 
                 </Grid> : null}
                 <br/>
