@@ -13,11 +13,24 @@ const StepperContent = () => {
     const [queItem, setQueItem] = useState([])
     const [stepScore, setStepScore] = useState()
     const [maxError, setMaxError] = useState(false)
+    const [maxVal,setMaxVal] = useState(false)
     const [SolveQueErr, setSolveQueErr] = useState(false)
     const [SolveQueErrInfo, setSolveQueErrInfo] = useState(false)
     const [anchorEl, setAnchorEl] = React.useState(null);
     console.log(queItem)
 
+    // const data = [{id : 1 , name : "ifrat"},{id : 1 , name : "ifrat"}]
+    // let obj = {}
+    // data.forEach(d => {
+    //     let item = Object.keys(d)
+    //     console.log(item)
+    //     item.forEach(i => {
+    //         console.log(i)
+    //         obj[i] ? obj[i]++ : obj[i] = 1
+    //     })
+    // })
+    // console.log(obj)
+   
     //next-step-handler
     const handleNext = () => {
         if (SolveQueErr === true) {
@@ -125,6 +138,7 @@ const StepperContent = () => {
         //find-max-val
         const max = info.max ? info.max : info.options.length;
         console.log(max)
+        setMaxVal(max)
 
         //put-active-item
         const newItem = [...queItem, opt]
@@ -246,7 +260,7 @@ const StepperContent = () => {
                         horizontal: 'left',
                     }}
                 >
-                    <Typography sx={{ p: 2 }}>Two maximum value will be allowed</Typography>
+                    <Typography sx={{ p: 2 }}>{`${maxVal} maximum value will be allowed`} </Typography>
                 </Popover>
                 : ''}
             <Divider />
